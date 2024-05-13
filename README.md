@@ -5,6 +5,8 @@ for git
 ED: https://spaces.pfizer/franklin/websites/migrainecarecom 
 Github: https://github.com/pfizer/migrainecarecom 
 SharePoint：https://pfizer.sharepoint.com/sites/adobesitemigrainecarecom 
+https://github.com/pfizer/elrexfiojp/tree/dev/test/blocks
+
 
 document.addEventListener('DOMContentLoaded', (event) => {
   if(window.location.pathname !== '/yao') {
