@@ -40,3 +40,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
 });
+
+
+By using the MIDAS questionnaire, you can provide your healthcare provider with a clear picture of how your migraines are affecting your life, which can guide treatment decisions. Please note that this guide is not intended to be used as a diagnostic tool and should not replace discussions with your healthcare provider. Any individual information you enter about yourself will only be viewed in the aggregate with other collected responses.
+
+I agree to the terms of the disclaimer and consent to submitting my response from taking this assessment.
+
+Access My Condition
+
+Disclaimer: Pfizer shall only be collecting data with regard to usage of the tool in aggregate (i.e. how many times the tool is used; the aggregate scores for such usage etc. Such data will be completely anonymized and will not be personally identifiable in any matter). Pfizer shall reserve the right to retain and use such data for any further analysis and/ any future publications and/or campaigns as may be deemed appropriate by Pfizer (in line with applicable laws and industry code/ guidelines).
+
+Please check this box if you want to proceed.
+
+
+
+
