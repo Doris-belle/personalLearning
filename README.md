@@ -10,7 +10,11 @@ https://docs.platforms.pfizer/adobe/docs/franklin/psi
 migraine-risk-assessment-quiz
 quiz-page
 quiz-result
+https://www.figma.com/file/H31gFVAUH3guX14GfVXVhE/Untitled?type=design&node-id=2-2&mode=design&t=eZTDSIRTNbLA6AJ6-0
 
+MIGRAINE RISK ASSESSMENT QUIZ
+
+The Migraine Disability Assessment (MIDAS) questionnaire is a brief, validated tool designed to quantify disability caused by headaches. It measures the impact of headaches on your functioning at work, school, and in social activities by assessing lost days in the past three months. 1 The questionnaire consists of seven items. The grading system categorises the total score into Grade I to IV, from minimal or infrequent disability with a score of 0–5 (Grade I) to severe disability with a score of 21 or more (Grade IV).1 Complete the quiz below.
 
 document.addEventListener('DOMContentLoaded', (event) => {
   if(window.location.pathname !== '/yao') {
