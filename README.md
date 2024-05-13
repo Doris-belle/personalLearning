@@ -18,6 +18,9 @@ MIGRAINE RISK ASSESSMENT QUIZ
 ![Questionnaire 1test](https://github.com/Doris-belle/personalLearning/assets/72608685/1ac3857b-e7bf-4a58-a13e-ef786ed81c61)
 
 
+![Tablet 1book](https://github.com/Doris-belle/personalLearning/assets/72608685/76f012cc-8625-4de4-8cbb-279eadd12cf8)
+
+
 The Migraine Disability Assessment (MIDAS) questionnaire is a brief, validated tool designed to quantify disability caused by headaches. It measures the impact of headaches on your functioning at work, school, and in social activities by assessing lost days in the past three months. 1 The questionnaire consists of seven items. The grading system categorises the total score into Grade I to IV, from minimal or infrequent disability with a score of 0–5 (Grade I) to severe disability with a score of 21 or more (Grade IV).1 Complete the quiz below.
 
 document.addEventListener('DOMContentLoaded', (event) => {
