@@ -7,6 +7,9 @@ Github: https://github.com/pfizer/migrainecarecom
 SharePoint：https://pfizer.sharepoint.com/sites/adobesitemigrainecarecom 
 https://github.com/pfizer/elrexfiojp/tree/dev/test/blocks
 https://docs.platforms.pfizer/adobe/docs/franklin/psi
+migraine-risk-assessment-quiz
+quiz-page
+quiz-result
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
