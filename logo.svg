@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="307" height="61" viewBox="0 0 307 61">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="矩形_5" data-name="矩形 5" width="170" height="40.052" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="组_916" data-name="组 916" transform="translate(-50 -40)">
+    <g id="组_7" data-name="组 7" transform="translate(0 20)">
+      <g id="组_4" data-name="组 4" transform="translate(50 28)">
+        <g id="组_3" data-name="组 3" clip-path="url(#clip-path)">
+          <path id="路径_17" data-name="路径 17" d="M185.317,0a4.634,4.634,0,1,1-4.757,4.608A4.623,4.623,0,0,1,185.317,0m0,8.354a3.608,3.608,0,0,0,3.631-3.721,3.645,3.645,0,1,0-7.288,0,3.643,3.643,0,0,0,3.657,3.721m-1.791-1.316V2.355a9.723,9.723,0,0,1,1.739-.152c.844,0,2.072.152,2.072,1.367a1.186,1.186,0,0,1-.972,1.089v.075c.46.152.69.532.818,1.14a4.187,4.187,0,0,0,.358,1.164h-1.074a3.964,3.964,0,0,1-.358-1.164c-.179-.734-.588-.734-1.56-.734v1.9ZM184.575,4.4c.793,0,1.662,0,1.662-.708,0-.431-.307-.735-1.049-.735a2.814,2.814,0,0,0-.613.051Z" transform="translate(-20.072 0)" fill="#007bb6"/>
+          <path id="路径_18" data-name="路径 18" d="M34.875,6.461V22.933c.164,12.078-5.628,17.284-19.184,17.284H1.4v-6.75H15.9c7.024.081,10.517-2.034,11.5-6.915H10.557v-6.67H27.563V13.09H12.446Q10.906,23.95,0,26.674V19.516C3.943,18.174,5.545,14.8,6.121,6.461Z" transform="translate(0 -0.775)" fill="#007bb6"/>
+          <rect id="矩形_4" data-name="矩形 4" width="33.642" height="6.914" transform="translate(42.515 18.74)" fill="#007bb6"/>
+          <path id="路径_19" data-name="路径 19" d="M100.12,11.865V5.724H107.1v6.141H126.41V19.43c0,6.1-3.738,9.394-10.434,9.272h-4.4V22.6H115.2c2.957-.04,4.026-.854,4.026-3.172V18.047H107.1V29.069c-.041,3.863.617,4.352,5.5,4.311h13.967v6.508H112.9C102.79,39.928,100.2,37.935,100.12,30V18.047H93.26V11.865Zm21.36-1.22h-3.82V4.382h3.82Zm1.233-6.263h3.9v6.263h-3.9Z" transform="translate(-10.367 -0.526)" fill="#007bb6"/>
+          <path id="路径_20" data-name="路径 20" d="M153.8,14.429V5.075h7.189v9.354h13.1v6.832H160.82c-.124,8.867-1.438,12.445-5.833,16.065-3.328,2.4-6.737,3.172-14.541,3.335V33.706c5.956-.163,7.475-.447,9.612-1.87,2.794-2.034,3.368-3.783,3.491-10.575H139.336V14.429Z" transform="translate(-15.49 -0.609)" fill="#007bb6"/>
+        </g>
+      </g>
+      <g id="组_5" data-name="组 5" transform="translate(-3 1)">
+        <text id="jp" transform="translate(229 59)" fill="#0079b2" font-size="38" font-family="IBMPlexSansJP-Bold, IBM Plex Sans JP" font-weight="700"><tspan x="0" y="0">jp</tspan></text>
+        <text id="_." data-name="." transform="translate(210 67)" fill="#0079b2" font-size="30" font-family="IBMPlexSansJP-Bold, IBM Plex Sans JP" font-weight="700"><tspan x="0" y="0">.</tspan></text>
+      </g>
+    </g>
+    <text id="乳がん" transform="translate(279 79)" fill="#0079b2" font-size="26" font-family="IBMPlexSansJP-Bold, IBM Plex Sans JP" font-weight="700"><tspan x="0" y="0">乳がん</tspan></text>
+  </g>
+</svg>
