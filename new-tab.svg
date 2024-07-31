@@ -1,8 +1,0 @@
-<svg id="组件_12_1" data-name="组件 12 – 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="24" viewBox="0 0 32 24">
-  <defs>
-    <pattern id="pattern" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 39 30">
-      <image width="39" height="30" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAeCAYAAACv1gdQAAAABHNCSVQICAgIfAhkiAAAAJpJREFUWEftl1EOgCAMQ9m5vZfX02jkAwRT6lAx5dd1q29TwMI0h68uG93c8gJZ22oi5IYwt79N5xVBNJOTuaMzItc6opq5VmIxXuRcySU4s8xXz1gTNV2xrTIHYBY5AFIx5J/kWBqMLtn4ka+VKcJqYHNsgdu6eEx/8kcLm5Y5GFUWKHJe5Ng8HrrT7S5vq0cRNkfVHJuwq24FixZV3TV/LOMAAAAASUVORK5CYII="/>
-    </pattern>
-  </defs>
-  <rect id="图像_16" data-name="图像 16" width="32" height="24" fill="url(#pattern)"/>
-</svg>
