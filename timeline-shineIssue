@@ -1,0 +1,543 @@
+<template>
+  <div class="strConfigTimelineBox timeline">
+    <div class="title">
+      <div class="icon"></div>
+      <div class="text">
+        Timeline
+        <div class="pop">
+          <a-tooltip><template #title>Timeline</template>?</a-tooltip>
+        </div>
+      </div>
+      <div class="update-time">{{ `「最近更新日期 ${s.strConfigLatestTime}」` }}</div>
+    </div>
+    <div class="content">
+      <!-- 业务时间轴 -->
+      <div class="timeline-container business-timeline">
+        <div class="timeline-header">
+          <div class="timeline-title">业务</div>
+        </div>
+        <div class="timeline-scroll-container" v-if="timelineData.business.length">
+          <div class="swiper-button-prev" @click="handlePrev('business')" v-if="timelineData.business.length > 6" :class="{ disabled: isPrevDisabled('business') }"></div>
+          <div class="timeline-scroll-content" ref="scrollContainerBusiness" @scroll="handleScroll('business')">
+            <swiper
+              :modules="modules"
+              :slides-per-view="'auto'"
+              :space-between="0"
+              :allow-touch-move="true"
+              :scrollbar="{ draggable: true }"
+              :grabCursor="true"
+              @swiper="(swiper) => onSwiper(swiper, 'business')"
+            >
+              <swiper-slide v-for="(item, index) in timelineData.business" :key="item.time">
+                <div class="timeline-item" @mouseenter="showTooltip(item, index, $event)" @mouseleave="hideTooltip">
+                  <a-timeline>
+                    <a-timeline-item>
+                      <template #dot>
+                        <div class="timeline-dot custom-dot"></div>
+                      </template>
+                      <div class="timeline-content" :class="{ 'content-bottom': index % 2 === 1, 'content-top': index % 2 === 0 }">
+                        <div class="timeline-time">
+                          {{ item.time }}<span v-if="item.version">({{ item.version }})</span>
+                        </div>
+                        <div class="timeline-desc">{{ item.des }}</div>
+                      </div>
+                    </a-timeline-item>
+                  </a-timeline>
+                </div>
+              </swiper-slide>
+            </swiper>
+          </div>
+          <div class="swiper-button-next" @click="handleNext('business')" v-if="timelineData.business.length > 6" :class="{ disabled: isNextDisabled('business') }"></div>
+        </div>
+        <div class="empty" v-if="!timelineData.business.length">
+          <a-empty
+            :image="nodata"
+            :image-style="{
+              height: '80px',
+            }"
+          >
+            <template #description>
+              <span> 暂无数据 </span>
+            </template>
+          </a-empty>
+        </div>
+      </div>
+
+      <!-- 算法时间轴 -->
+      <div class="timeline-container algorithm-timeline">
+        <div class="timeline-header">
+          <div class="timeline-title">算法</div>
+        </div>
+        <div class="timeline-scroll-container" v-if="timelineData.algorithm.length">
+          <div class="swiper-button-prev" @click="handlePrev('algorithm')" v-if="timelineData.algorithm.length > 6" :class="{ disabled: isPrevDisabled('algorithm') }"></div>
+          <div class="timeline-scroll-content" ref="scrollContainerAlgorithm" @scroll="handleScroll('algorithm')">
+            <swiper
+              :modules="modules"
+              :slides-per-view="'auto'"
+              :space-between="0"
+              :allow-touch-move="true"
+              :scrollbar="{ draggable: true }"
+              :grabCursor="true"
+              @swiper="(swiper) => onSwiper(swiper, 'algorithm')"
+            >
+              <swiper-slide v-for="(item, index) in timelineData.algorithm" :key="item.time">
+                <div class="doris">
+                    <div ref="tooltipRef" class="tooltip-trigger" @mouseenter="showTooltip(item, index, $event)" @mouseleave="hideTooltip">
+                      <div class="timeline-item">
+                        <a-timeline>
+                          <a-timeline-item>
+                  <a-tooltip :visible="tooltipVisible && hoverindex === index" placement="top" :z-index="10" :arrowPointAtCenter="true">
+                    <template #title>
+                      <div>
+                        <div class="tooltipDate">
+                          {{ tooltipDate }}<span v-if="tooltipVersion"> ({{ tooltipVersion }})</span>
+                        </div>
+                        <div>{{ tooltipContent }}</div>
+                      </div>
+                    </template>
+                            <template #dot>
+                              <div class="timeline-dot custom-dot"></div>
+                            </template>
+                            <div class="timeline-content" :class="{ 'content-bottom': index % 2 === 1, 'content-top': index % 2 === 0 }">
+                              <div class="timeline-time">
+                                {{ item.time }}<span v-if="item.version">({{ item.version }})</span>
+                              </div>
+                              <div class="timeline-desc">{{ item.des }}</div>
+                            </div>
+                    </a-tooltip>
+                          </a-timeline-item>
+                        </a-timeline>
+                      </div>
+                    </div>
+                  
+                </div>
+              </swiper-slide>
+            </swiper>
+          </div>
+          <div class="swiper-button-next" @click="handleNext('algorithm')" v-if="timelineData.algorithm.length > 6" :class="{ disabled: isNextDisabled('algorithm') }"></div>
+        </div>
+        <div class="empty" v-if="!timelineData.algorithm.length">
+          <a-empty
+            :image="nodata"
+            :image-style="{
+              height: '80px',
+            }"
+          >
+            <template #description>
+              <span> 暂无数据 </span>
+            </template>
+          </a-empty>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
+  import { Timeline, Tooltip } from 'ant-design-vue';
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import { Navigation, Pagination, Autoplay, A11y, Scrollbar } from 'swiper';
+  import { useStrStore } from '/@/store/modules/str';
+  import 'swiper/css';
+  import nodata from '../assets/nodata.svg';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import 'swiper/css/autoplay';
+
+  // 注册组件
+  const ATimeline = Timeline;
+  const ATimelineItem = Timeline.Item;
+  const ATooltip = Tooltip;
+  const tooltipVisible = ref(false);
+  const hoverindex = ref(1);
+  const tooltipContent = ref('');
+  const tooltipRef = ref(null);
+  const tooltipDate = ref('');
+  const tooltipVersion = ref('');
+  let tooltipTimeout = null; // 定义一个定时器
+  const currentTooltipIndex = ref(1);
+
+  const s = useStrStore();
+
+  // 移除 mock 数据，使用 computed 监听 store 中的数据
+  const timelineData = computed(() => {
+    if (!s.strConfigTimelineData) return { business: [], algorithm: [] };
+    return {
+      business:
+        s.strConfigTimelineData.business?.map((item) => ({
+          time: item.time,
+          des: item.des,
+        })) || [],
+      algorithm:
+        s.strConfigTimelineData.algorithm?.map((item) => ({
+          time: item.time,
+          des: item.des,
+          version: item.version,
+        })) || [],
+    };
+  });
+
+  const showTooltip = (item, index, event) => {
+    clearTimeout(tooltipTimeout); // 清除之前的定时器
+    currentTooltipIndex.value = index;
+    hoverindex.value = index;
+    console.log(hoverindex.value, '======',index)
+    tooltipTimeout = setTimeout(() => {
+      tooltipVisible.value = true;
+      tooltipContent.value = item.des;
+      tooltipDate.value = item.time;
+      tooltipVersion.value = item.version;
+
+      const rect = event.target.getBoundingClientRect();
+
+      tooltipRef.value.style.position = 'absolute';
+      // tooltipRef.value.style.width = '100%';
+      // tooltipRef.value.style.height = '100%';
+      const jeecgSideBar = document.querySelector('.jeecg-layout-sideBar');
+      const scrollY = window.scrollY;
+      if (jeecgSideBar) {
+        // const sideBarWidth = parseInt(jeecgSideBar.style.maxWidth, 10);
+        // tooltipRef.value.style.left = `${rect.left - sideBarWidth}px`;
+        // tooltipRef.value.style.top = `${rect.top - 112 + scrollY}px`;
+
+      } else {
+        // tooltipRef.value.style.left = `${rect.left - 10}px`;
+        // tooltipRef.value.style.top = `${rect.top - 96 + scrollY}px`;
+      }
+    }, 600); // 设置延迟时间
+  };
+
+  const hideTooltip = () => {
+    clearTimeout(tooltipTimeout); // 清除定时器
+    tooltipVisible.value = false;
+    hoverindex.value = -1;
+  };
+
+  // 存储两个 swiper 实例
+  const swiperInstances = ref({
+    business: { isEnd: false },
+    algorithm: { isEnd: false },
+  });
+
+  const onSwiper = (swiper, type: 'business' | 'algorithm') => {
+    swiperInstances.value[type] = swiper;
+  };
+
+  const handlePrev = (type: 'business' | 'algorithm') => {
+    if (swiperInstances.value[type]) {
+      swiperInstances.value[type].slidePrev();
+    }
+  };
+
+  const handleNext = (type: 'business' | 'algorithm') => {
+    if (swiperInstances.value[type]) {
+      swiperInstances.value[type].slideNext();
+    }
+  };
+
+  // Expose needed variables and methods to template
+  const modules = [Navigation, Pagination, Autoplay, A11y, Scrollbar];
+
+  const isPrevDisabled = (type: 'business' | 'algorithm') => {
+    return swiperInstances.value[type]?.isBeginning;
+  };
+
+  const scrollContainerBusiness = ref(null);
+  const scrollContainerAlgorithm = ref(null);
+
+  const handleScroll = (type: 'business' | 'algorithm') => {
+    const container = type === 'business' ? scrollContainerBusiness.value : scrollContainerAlgorithm.value;
+    const scrollLeft = container.scrollLeft;
+    const containerWidth = container.clientWidth;
+    const scrollWidth = container.scrollWidth;
+
+    // // 计算滚动条在容器内的百分比位置
+    // const positionInContainer = (scrollLeft / (scrollWidth - containerWidth)) * 100;
+
+    // 检查是否到达容器的右边
+    if (scrollLeft + containerWidth >= scrollWidth) {
+      swiperInstances.value[type].isEnd = true; // 设置 isEnd 为 true
+    } else {
+      swiperInstances.value[type].isEnd = false; // 重置 isEnd
+    }
+    if (scrollLeft === 0) {
+      swiperInstances.value[type].isBeginning = true; // 设置 isBeginning 为 true
+    } else {
+      swiperInstances.value[type].isBeginning = false; // 重置 isBeginning
+    }
+  };
+
+  onMounted(async () => {});
+
+  // 组件卸载时
+  onBeforeUnmount(() => {
+    // ��里可以添加清理逻辑
+  });
+
+  // 计算按钮是否禁用
+  const isNextDisabled = (type: 'business' | 'algorithm') => {
+    return swiperInstances.value[type]?.isEnd;
+  };
+</script>
+
+<style lang="less" scoped>
+  @import '../assets/layout.less';
+  .strConfigTimelineBox {
+    .content {
+      height: unset;
+      background: transparent;
+      position: relative;
+      width: 100%;
+      margin-top: 16px;
+      min-height: 360px;
+
+      .empty {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f1f5;
+
+        :deep(.ant-empty-image) {
+          height: 80px;
+        }
+
+        :deep(.ant-empty-description) {
+          color: rgb(214, 221, 230);
+        }
+      }
+    }
+  }
+
+  .timeline {
+    .title {
+      .icon {
+        background: url(../assets/icon_timeline.svg);
+      }
+    }
+  }
+  .timeline-container {
+    padding: 10px;
+    position: relative;
+    background: #fff;
+    & + .timeline-container {
+      margin-top: 16px;
+    }
+  }
+
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .timeline-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .timeline-scroll-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 32px;
+    overflow: hidden;
+  }
+
+  .timeline-scroll-content {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    &::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f5f5f5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #bcbcbc;
+      border-radius: 30px;
+      height: 5px;
+      &:hover {
+        background: #bfbfbf;
+      }
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+
+    &::after {
+      font-size: 18px;
+    }
+  }
+
+  .swiper-button-prev {
+    left: 0;
+  }
+
+  .swiper-button-next {
+    right: 0;
+  }
+
+  :deep(.swiper) {
+    width: 100%;
+    overflow: visible;
+  }
+
+  :deep(.swiper-slide) {
+    width: auto !important;
+    display: flex;
+    justify-content: flex-start;
+    min-width: 220px;
+    flex: 1;
+  }
+
+  :deep(.swiper-wrapper) {
+    display: flex;
+    transition-timing-function: ease-out;
+  }
+
+  .timeline-item {
+    width: 100%;
+    position: relative;
+    height: 115px;
+    display: flex;
+    align-items: center;
+  }
+
+  /deep/ .ant-timeline-item-content {
+    margin: 0;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    .timeline-content.content-top {
+      transform: unset;
+      position: absolute;
+      width: 100%;
+      text-align: left;
+      top: 5px;
+      z-index: 5;
+    }
+    .timeline-content.content-bottom {
+      transform: unset;
+      position: absolute;
+      width: 100%;
+      text-align: left;
+      bottom: -5px;
+      z-index: 5;
+    }
+  }
+
+  .timeline-time {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 4px;
+  }
+
+  .timeline-desc {
+    font-size: 14px;
+    color: #71717a;
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .timeline-dot {
+    cursor: pointer;
+  }
+
+  :deep(.ant-timeline) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  :deep(.ant-timeline-item) {
+    padding: 0;
+    position: relative;
+    flex: 1;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  :deep(.ant-timeline-item-tail) {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #fbbf24;
+    top: 50%;
+    left: 0;
+    display: block;
+    z-index: 5;
+  }
+  /deep/ .ant-timeline-item-head-custom {
+    position: unset;
+    transform: unset;
+    padding: unset;
+  }
+  .custom-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid #ffb800;
+    background: #fff;
+    position: relative;
+    z-index: 6;
+  }
+  .tooltipDate {
+    color: #e5b611;
+  }
+  .algorithm-timeline {
+    min-height: 189px;
+    :deep(.ant-timeline-item-tail) {
+      background-color: #4ade80;
+    }
+    .custom-dot {
+      border: 3px solid #4ade80;
+    }
+  }
+  .business-timeline {
+    min-height: 189px;
+  }
+  .disabled {
+    pointer-events: none;
+    color: #ccc; /* 灰色 */
+  }
+  .tooltip-trigger {
+    width: 100%;
+    height: 100%;
+  }
+  .doris {
+    width: 100%;
+    height: 100%;
+  }
+  // .swiper-wrapper > div:first-child {
+  //   display: none;
+  // }
+</style>
